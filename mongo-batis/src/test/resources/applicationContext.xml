@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--扫描基础包，通过注解实现注入-->
+    <context:component-scan base-package="org.cbqin.batis.mongodb.*"/>
+
+    <!--mongodb配置-->
+    <import resource="persistence.xml"/>
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
+    </bean>
+
+
+    <!--带注解方法的处理器列表-->
+    <util:set id="processors" value-type="org.cbqin.batis.core.processor.AnnotationMethodProcessor">
+        <!--查询方法处理器-->
+        <bean id="mongoQueryAnnotationMethodProcessor"
+              class="org.cbqin.batis.mongodb.query.QueryAnnotationMethodProcessor">
+            <property name="mongoTemplate" ref="mongoTemplate"/>
+        </bean>
+        <!--更新方法处理器-->
+        <bean id="mongoUpdateAnnotationMethodProcessor"
+              class="org.cbqin.batis.mongodb.update.UpdateAnnotationMethodProcessor">
+            <property name="mongoTemplate" ref="mongoTemplate"/>
+        </bean>
+        <!--插入方法处理器-->
+        <bean id="mongoInsertAnnotationMethodProcessor"
+              class="org.cbqin.batis.mongodb.insert.InsertAnnotationMethodProcessor">
+            <property name="mongoTemplate" ref="mongoTemplate"/>
+        </bean>
+        <!--删除方法处理器-->
+        <bean id="mongoDeleteAnnotationMethodProcessor"
+              class="org.cbqin.batis.mongodb.delete.DeleteAnnotationMethodProcessor">
+            <property name="mongoTemplate" ref="mongoTemplate"/>
+        </bean>
+    </util:set>
+
+    <!--映射接口实例工厂-->
+    <bean id="mapperInstanceFactory" class="org.cbqin.batis.core.mapper.AnnotationMapperInstanceFactory"
+          init-method="init">
+        <property name="processors" ref="processors"/>
+    </bean>
+
+    <!-- 映射接口扫描器-->
+    <bean id="mapperScanner" class="org.cbqin.batis.core.scanner.AnnotationMapperScanner">
+        <property name="basePackage" value="org.cbqin.batis.mongodb.iface"/>
+        <property name="mapperInstanceFactory" ref="mapperInstanceFactory"/>
+    </bean>
+
+    <!--与spring集成-->
+    <bean class="org.cbqin.batis.core.spring.MapperInstanceRegister">
+        <property name="mapperScanner" ref="mapperScanner"/>
+    </bean>
+
+</beans>
