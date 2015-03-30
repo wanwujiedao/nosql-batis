@@ -1,11 +1,14 @@
 package org.cbqin.batis.mongodb;
 
+import org.apache.commons.lang3.Validate;
 import org.cbqin.batis.mongodb.entity.Resource;
 import org.cbqin.batis.mongodb.iface.ResourceDao;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -30,10 +33,6 @@ import java.util.UUID;
 public class SpringIntegrationTest {
     @Autowired
     private ResourceDao resourceDao;
-
-    public void setResourceDao(ResourceDao resourceDao) {
-        this.resourceDao = resourceDao;
-    }
 
     @Test
     public void testIntegrateWithSpring() {
@@ -87,5 +86,11 @@ public class SpringIntegrationTest {
 
     private void testDeleteResource(String rid) {
         resourceDao.deleteResourceById(rid);
+    }
+
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+        ResourceDao resourceAccess = context.getBean(ResourceDao.class);
+        Validate.notNull(resourceAccess, "Spring容器中不存在ResourceDao的实例");
     }
 }

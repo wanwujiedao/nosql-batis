@@ -31,37 +31,40 @@ public interface ResourceDao {
      * 添加资源数据
      */
     @Insert
-    public void addResource(Resource resource);
+    void addResource(Resource resource);
 
     /**
      * 批量添加资源数据
      */
     @Insert
-    public void addResources(Resource resource1, Resource resource);
+    void addResources(Resource resource1, Resource resource2);
 
     /**
      * 批量添加资源数据
      */
     @Insert
-    public void addResourceList(List<Resource> resources);
+    void addResourceList(List<Resource> resources);
 
     /**
      * 批量添加资源数据
      */
     @Insert
-    public void addResourceArray(Resource[] resources);
+    void addResourceArray(Resource[] resources);
 
     /**
      * 查询全部资源
      */
     @Query
-    public List<Resource> getAllResources();
+    List<Resource> getAllResources();
 
     /**
      * 给资源添加新的标签
      */
-    @Update(criteria = " {'rid': ' #{resource.rid} '} ", update = "{ '$addToSet' : {'tags': {'$each': #{tags}}} }")
-    public void addTags(@Param("resource") Resource resource, @Param("tags") List<String> tags);
+    @Update(
+            criteria = " {'rid': ' #{resource.rid} '} ",
+            update = "{ '$addToSet' : {'tags': {'$each': #{tags}}} }"
+    )
+    void addTags(@Param("resource") Resource resource, @Param("tags") List<String> tags);
 
     /**
      * 给资源添加新的标签
@@ -71,14 +74,14 @@ public interface ResourceDao {
             update = "{ '$addToSet' : {'tags': {'$each': #{tags}}}, '$set':{'lastModify': { '$date' : '#{2}' }}}",
             upsert = true
     )
-    public void upsertTagsAndDate(String rid, @Param("tags") List<String> tags, Date modifyTime);
+    void upsertTagsAndDate(String rid, @Param("tags") List<String> tags, Date modifyTime);
 
     /**
      * 根据资源ID获取单个资源标签
      */
     @Query(criteria = " { 'rid': '#{0}' }", multi = false)
     @Fields("{'tags' : true}")
-    public Resource getResourceTags(String rid);
+    Resource getResourceTags(String rid);
 
     /**
      * 分页获取含有某标签的资源
@@ -88,7 +91,7 @@ public interface ResourceDao {
     List<Resource> getRecentlyResourceListByTag(String tag, Page page);
 
     /**
-     * 删除指定的资源
+     * 删除指定ID的资源
      */
     @Delete(criteria = "{'rid':'#{0}'}")
     void deleteResourceById(String rid);

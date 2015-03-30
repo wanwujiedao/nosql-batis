@@ -51,7 +51,7 @@
         <property name="mapperInstanceFactory" ref="mapperInstanceFactory"/>
     </bean>
 
-    <!--与spring集成-->
+    <!--注入实例到Spring容器中-->
     <bean class="org.cbqin.batis.core.spring.MapperInstanceRegister">
         <property name="mapperScanner" ref="mapperScanner"/>
     </bean>
