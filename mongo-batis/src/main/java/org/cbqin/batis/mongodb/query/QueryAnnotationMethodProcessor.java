@@ -132,7 +132,7 @@ public class QueryAnnotationMethodProcessor implements AnnotationMethodProcessor
         Class returnType = context.getReturnType();
         String collectionName = context.getCollectionName();
 
-        logger.debug(context.toString());
+        logger.trace(context.toString());
 
         if (multi) {
             /*DBCursor cursor = mongoTemplate.getCollection(collectionName).find(query.getQueryObject(), query.getFieldsObject()).sort(query.getQueryObject());
