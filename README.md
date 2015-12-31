@@ -2,6 +2,7 @@
 
 [Mongo Batis](https://github.com/qinchuanbao/nosql-batis/tree/master/mongo-batis) 是一个mybatis风格的针对Mongodb的数据访问框架。我们只需要定义数据操作的接口，并进行相关配置，Mongo Batis即可通过动态代理方式生成相应的实现类，避免了大量的重复性代码。让我们的工作更有效率，代码也更简洁。
 
+
 ## 功能特性
 
 * 提供对Mongodb进行**增删查改**四种操作的封装
@@ -24,10 +25,10 @@ $ mvn clean install -Dmaven.test.skip
 
 		参数        |             含义            |     类型   | 是否允许为空 | 默认值
 		--------- | ------------------------- |-------------| :----------------: | ---------
-		  criteria   |        查询条件         |  dbobject |          是         |
+		  criteria   |        查询条件         |  DBObject |          是         |
 		   multi     | 是否查询多条文档  |  boolean  |          是         |  true
-		    field     |         返回字段        |  dbobject |          是         |
-		   sort       |         排序方式        | dbobject  |           是        |
+		    field     |         返回字段        |  DBObject |          是         |
+		   sort       |         排序方式        | DBObject  |           是        |
 		skip, limit |       分页条件          |      int      |           是        |
 
 
@@ -50,7 +51,7 @@ $ mvn clean install -Dmaven.test.skip
 	* 说明:
 
 	1. 需要使用分页功能时，请将`skip`和`limit`参数放入`Page`类实例中作为映射器接口的参数(位置任意)。
-	2. `dbobject`类型的参数在配置中使用`JSON格式`的字符串，单引号或者双引号均可。
+	2. `DBObject`类型的参数在配置中使用`JSON格式`的字符串，单引号或者双引号均可。
 	3. 默认情况下会将接口的参数的序号(从0开始)作为key，参数的值作为value加入`参数上下文`中。同时也可以使用`@Param`注解为参数起一个名字，这样就会将这个名字作为key，值作为value加入到参数上下文中。
 	4. 配置的字符串中允许使用`带命名根节点的json-path`表达式，解析器会根据根节点名称从`参数上下文`中获取相应的值。
 	5. 如果使用注解进行配置，需要在方法或接口上使用@Collection注解来标识操作的目标collection。方法上的配置优先级更高。
@@ -80,8 +81,8 @@ $ mvn clean install -Dmaven.test.skip
 
 		参数     |               含义                 |     类型   |  是否允许为空 | 默认值
 		---------- |------------------------------- | ----------- | :------------------: | --------
-		 criteria |               查询条件         | dbobject |            是         |
-		 update |               更新内容         | dbobject |            否         |
+		 criteria |               查询条件         | DBObject |            是         |
+		 update |               更新内容         | DBObject |            否         |
 		 upsert  | 不存在时是否进行插入 |  boolean  |            是         |  false
 		  multi   |    是否更新多条文档     |  boolean  |            是         |  true
 
@@ -102,7 +103,7 @@ $ mvn clean install -Dmaven.test.skip
 
 		参数     |     含义    |    类型    | 是否允许为空 | 默认值
 		--------- | ------------ | ----------- | :-----------------: |-----
-		criteria | 查询条件 | dbobject |           否         |
+		criteria | 查询条件 | DBObject |           否         |
 
     * 示例:
 
