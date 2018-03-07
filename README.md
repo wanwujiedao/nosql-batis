@@ -24,12 +24,19 @@ $ mvn clean install -Dmaven.test.skip
 	* 参数:
 
 		参数        |             含义            |     类型   | 是否允许为空 | 默认值
+		
 		--------- | ------------------------- |-------------| :----------------: | ---------
+		
 		  criteria   |        查询条件         |  DBObject |          是         |
+		  
 		   multi     | 是否查询多条文档  |  boolean  |          是         |  true
+		   
 		    field     |         返回字段        |  DBObject |          是         |
+		    
 		   sort       |         排序方式        | DBObject  |           是        |
+		   
 		skip, limit |       分页条件          |      int      |           是        |
+		
 
 
 	* 示例:
